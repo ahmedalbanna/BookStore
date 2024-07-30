@@ -1,0 +1,32 @@
+﻿@model Bookstore.Models.Author
+
+@{
+    ViewData["Title"] = "Add New Author";
+}
+
+<div class="container">
+    <h2 class="mb-4">Add New Author</h2>
+    <form asp-controller="Author" asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="AuthorName" class="control-label"></label>
+            <input asp-for="AuthorName" class="form-control" />
+            <span asp-validation-for="AuthorName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Biography" class="control-label"></label>
+            <textarea asp-for="Biography" class="form-control"></textarea>
+            <span asp-validation-for="Biography" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+            <a asp-controller="Author" asp-action="Index" class="btn btn-secondary">Back to Authors</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,61 @@
+﻿@model Bookstore.Models.SearchResultsViewModel
+
+@{
+    ViewData["Title"] = "Search Results";
+    // Access the search term from ViewData
+    string searchTerm = ViewData["searchTerm"]?.ToString() ?? "";
+    string errorMessage = ViewData["ErrorMessage"]?.ToString() ?? "";
+}
+
+<div class="container">
+    
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger" role="alert">
+            @errorMessage
+        </div>
+    }
+    else{
+        <h2>Search Results for: "@searchTerm"</h2> @*  Display the search term here *@
+    @if (Model.Books.Any() || Model.Authors.Any())
+    {
+        <h3>Books:</h3>
+        @if (Model.Books.Any())
+        {
+            <ul>
+                @foreach (var book in Model.Books)
+                {
+                    <li>
+                        <a asp-controller="Book" asp-action="Details" asp-route-id="@book.BookId">@book.Title</a>
+                        (By @book.Author.AuthorName)
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No books found matching your search.</p>
+        }
+
+        <h3>Authors:</h3>
+        @if (Model.Authors.Any())
+        {
+            <ul>
+                @foreach (var author in Model.Authors)
+                {
+                    <li>
+                        <a asp-controller="Author" asp-action="Details" asp-route-id="@author.AuthorId">@author.AuthorName</a>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No authors found matching your search.</p>
+        }
+    }
+    else
+    {
+        <p>No results found for your search term.</p>
+    }}
+</div>

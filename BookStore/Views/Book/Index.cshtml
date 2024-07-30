@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Bookstore.Models.Book>
+
+@{
+    ViewData["Title"] = "Books";
+}
+
+<div class="container">
+    <h2 class="mb-4">Books</h2>
+    <p class="mb-3">
+        <a asp-action="Create" class="btn btn-primary">Add New Book</a>
+    </p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Genre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AuthorId)
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        
+                           @Html.DisplayFor(model => item.Genre)
+                        
+                        
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Price)
+                    </td>
+                    <td>
+                        @if (item.Author != null) // Check if Author is not null
+                        {
+                            @Html.DisplayFor(model => item.Author.AuthorName)
+                        }
+                        else
+                        {
+                            <p class="card-text">By: Unknown Author</p>
+                        }
+                        
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.BookId" class="btn btn-primary btn-sm">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.BookId" class="btn btn-info btn-sm">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.BookId" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

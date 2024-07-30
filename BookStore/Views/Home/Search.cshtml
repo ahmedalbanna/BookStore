@@ -1,0 +1,67 @@
+﻿@model dynamic
+
+@{
+    ViewData["Title"] = "Search Results";
+}
+
+<div class="container mt-4">
+    <h2>Search Results</h2>
+    @if (Model.Books.Any())
+    {
+        <h3>Books</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Genre</th>
+                    <th>Author</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var book in Model.Books)
+                {
+                    <tr>
+                        <td>@book.Title</td>
+                        <td>@book.Genre</td>
+                        <td>@book.Author.AuthorName</td>
+                        <td>@book.Price.ToString("C")</td>
+                        <td>
+                            <a asp-controller="Book" asp-action="Details" asp-route-id="@book.BookId" class="btn btn-info btn-sm">Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    @if (Model.Authors.Any())
+    {
+        <h3>Authors</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Author Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var author in Model.Authors)
+                {
+                    <tr>
+                        <td>@author.AuthorName</td>
+                        <td>
+                            <a asp-controller="Author" asp-action="Details" asp-route-id="@author.AuthorId" class="btn btn-info btn-sm">Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    @if (!Model.Books.Any() && !Model.Authors.Any())
+    {
+        <p>No results found for your search term.</p>
+    }
+</div>

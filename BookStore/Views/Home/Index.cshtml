@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Bookstore.Models.Book>  // Model for the list of books
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to the Bookstore</h1>
+    <p>Discover your next favorite read.</p>
+</div>
+
+<div class="container">
+    <h2 class="mt-5">Featured Books</h2>
+    <div class="row">
+        @foreach (var book in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <a asp-controller="Book" asp-action="Details" asp-route-id="@book.BookId" class=""><img src="@book.ImageUrl" class="card-img-top" alt="@book.Title"></a>
+                    <div class="card-body">
+                        <h5 class="card-title">@book.Title</h5>
+                        <p class="card-text">By: @book.Author.AuthorName</p>
+                    
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
