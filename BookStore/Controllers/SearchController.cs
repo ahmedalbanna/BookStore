@@ -30,17 +30,18 @@ namespace Bookstore.Controllers
 
 
             // Search for books
+            // Search for books using regular expressions
             var books = _bookRepository.GetAllBooks()
-                .Where(b => b.Title.ToLower().Contains(searchTerm.ToLower()) ||
-                            b.Genre.ToLower().Contains(searchTerm.ToLower()) ||
-                            b.Author.AuthorName.ToLower().Contains(searchTerm.ToLower()))
+                .Where(b => Regex.IsMatch(b.Title, searchTerm, RegexOptions.IgnoreCase) ||
+                            Regex.IsMatch(b.Genre, searchTerm, RegexOptions.IgnoreCase) ||
+                            Regex.IsMatch(b.Author.AuthorName, searchTerm, RegexOptions.IgnoreCase))
                 .ToList();
 
             // Search for authors
             var authors = _authorRepository.GetAllAuthors()
-                .Where(a => a.AuthorName.ToLower().Contains(searchTerm.ToLower()) ||
-                            a.Books.Any(b => b.Genre.ToLower().Contains(searchTerm.ToLower())) ||
-                            a.Books.Any(b => b.Title.ToLower().Contains(searchTerm.ToLower())))
+                .Where(a => Regex.IsMatch(a.AuthorName, searchTerm, RegexOptions.IgnoreCase) ||
+                            a.Books.Any(b => Regex.IsMatch(b.Genre, searchTerm, RegexOptions.IgnoreCase)) ||
+                            a.Books.Any(b => Regex.IsMatch(b.Title, searchTerm, RegexOptions.IgnoreCase)))
                 .ToList();
 
             // Combine results

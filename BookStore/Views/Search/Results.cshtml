@@ -11,7 +11,7 @@
     
     @if (!string.IsNullOrEmpty(errorMessage))
     {
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-warning" role="alert"> @* Use a warning alert for a more friendly feel *@
             @errorMessage
         </div>
     }

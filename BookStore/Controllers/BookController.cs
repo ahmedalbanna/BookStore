@@ -117,18 +117,29 @@ namespace Bookstore.Controllers
 
                 // Handle image upload
                 //if (book.ImageFile != null || book.ImageUrl != originalImageUrl)
-                if (book.ImageUrl == null)
+                if (book.ImageFile != null)
                 {
                     string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images/books");
                     string uniqueFileName = Guid.NewGuid().ToString() + "_" + book.ImageFile.FileName;
                     string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    
 
                     // Save the image to the uploads folder
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
+                        
                         await book.ImageFile.CopyToAsync(fileStream);
+                        fileStream.Close();
                     }
-
+                    // Delete the old image if it exists
+                    if (!string.IsNullOrEmpty(originalImageUrl) && originalImageUrl != "/images/books/default.png")
+                    {
+                        string oldImagePath = Path.Combine(_hostingEnvironment.WebRootPath, originalImageUrl.Substring(1)); // Remove leading '/'
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
                     // Update the ImageUrl property in your Book object
                     book.ImageUrl = "/images/books/" + uniqueFileName;
                 }
@@ -163,5 +174,6 @@ namespace Bookstore.Controllers
             _bookRepository.DeleteBook(id);
             return RedirectToAction("Index");
         }
+        
     }
 }

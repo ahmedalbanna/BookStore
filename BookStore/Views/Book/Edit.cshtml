@@ -34,13 +34,9 @@
             <label asp-for="ImageUrl" class="control-label"></label>
             <input type="hidden" asp-for="ImageUrl" id="originalImageUrl" />
             <input asp-for="ImageUrl" class="form-control" id="imageUrl" readonly />
+            <input asp-for="ImageUrl" type="file" class="form-control" id="ImageFile" name="ImageFile" />
             <span asp-validation-for="ImageUrl" class="text-danger"></span>
         </div>
-        @* <div class="form-group">
-            <label asp-for="ImageFile" class="control-label"></label>
-            <input asp-for="ImageFile" type="file" class="form-control-file" id="imageFile"/>
-            <span asp-validation-for="ImageFile" class="text-danger"></span>
-        </div> *@
         <div class="form-group">
             <img id="previewImage" src="@ViewBag.ImageUrl" class="img-fluid" alt="@Model.Title" style="max-width: 200px; height: auto; margin-bottom: 10px;" />
         </div>
